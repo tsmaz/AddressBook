@@ -135,7 +135,16 @@ Status menu(AddressBook *address_book)
 
 Status add_contacts(AddressBook *address_book)
 {
-	/* Add the functionality for adding contacts here */
+	printf("what would you like to do:\n");
+	printf("0. Exit\n");
+	printf("1. Add Name\n");
+	printf("2. Add ph.no\n");
+	printf("3. Add e.id\n");
+
+	choice = getoption(Num," ");
+
+	switch (choice)
+		case 
 }
 
 Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
