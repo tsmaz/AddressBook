@@ -6,5 +6,7 @@ This project will make you implement some important features of C programming wh
 By implementing this project in a hands-on way you will be able to build a firm understanding on the code C programming concepts and how to apply them on a use case like address book.
 
 If you're a contributor, to get started see the following links:
+
 Project Outline: https://www.emertxe.com/embedded-systems/c-programming/c-projects/address-book-c/
+
 Project Specs Doc: https://github.com/tsmaz/AddressBook/blob/main/address_book.pdf
