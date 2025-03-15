@@ -141,10 +141,12 @@ Status add_contacts(AddressBook *address_book)
 	printf("2. Add ph.no\n");
 	printf("3. Add e.id\n");
 
-	choice = getoption(Num," ");
+	do{
+		choice = getoption(NUM,"");
 
-	switch (choice)
-		case 
+		switch (choice) {
+			case 0:
+				
 }
 
 Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
