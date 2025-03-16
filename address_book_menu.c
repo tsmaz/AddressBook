@@ -138,14 +138,33 @@ Status add_contacts(AddressBook *address_book)
 	printf("what would you like to do:\n");
 	printf("0. Exit\n");
 	printf("1. Add Name\n");
-	printf("2. Add ph.no\n");
-	printf("3. Add e.id\n");
+	printf("2. Add phone number\n");
+	printf("3. Add email\n");
 
 	do{
+		int check = 1;
 		choice = getoption(NUM,"");
 
-		switch (choice) {
-			case 0:
+		switch (choice){
+			case e_first_opt:
+				check = 0;
+				break;
+		
+			case  e_second_opt:
+				char name = get_option(CHAR,"Write what name you want to add:");
+				address_book->list->name[sizeof(address_book->list->name)] = name;
+				break;
+			case  e_third_opt:
+				int number = get_option(NUM,"Write the phone number you want to add:");
+				address_book->list->phone_numbers[sizeof(address_book->list->phone_numbers)] = number;
+				break;
+			case  e_fourth_opt:
+				char name = get_option(CHAR,"Write the email address you want to add:");
+				address_book->list->email_addresses[sizeof(address_book->list->email_addresses)] = name;
+				break;
+		}
+	}while (check);
+	return e_back;
 				
 }
 
