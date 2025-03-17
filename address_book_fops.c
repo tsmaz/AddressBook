@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include <sys/stat.h>
 #include <errno.h>
 #include <ctype.h>
@@ -11,13 +10,13 @@
 Status load_file(AddressBook *address_book)
 {
 	int ret;
-  	if (address_book->fp != NULL) {
+  	if (address_book->fp == NULL) {
     	ret = 0;
 	}
 	else {
 		ret = 1;
 	}
-
+	printf("%d",ret);
 	if (ret == 0)
 	{
 		int counter = address_book->count;
@@ -50,15 +49,11 @@ Status load_file(AddressBook *address_book)
 	}
 	else
 	{
-		FILE *ftpr;
-		ftpr = fopen(DEFAULT_FILE, "r");
-		if (ftpr == NULL){
+		address_book->fp = NULL;
+		printf("First set done");
+		address_book->fp = fopen(DEFAULT_FILE, "w");
+		if (address_book->fp == NULL){
 			printf("Failed");
-		}
-		else {
-			address_book->fp = ftpr;
-			fclose(ftpr);
-
 		}
 	}
 return e_success;
