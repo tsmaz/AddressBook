@@ -14,7 +14,7 @@
 int get_option(int type, const char *msg)
 {
 	int n;
-	char name;
+	char name[100];
 	printf("%s\n",msg);
 	switch(type){
 		case NUM:
@@ -22,7 +22,7 @@ int get_option(int type, const char *msg)
 			return n;
 		case CHAR:
 			scanf("%s", &name);
-			return name;
+			return (int)(uintptr_t)name;
 		default:
 			return 0;
 	}
@@ -139,13 +139,17 @@ Status add_contacts(AddressBook *address_book)
 {
 	int check;
 	int choice;
-	char game;
+	char nameing[100];
 	int number;
-	char email;
+	char email[100];
+	int names_list = 0;
+	int	numbers_list = 0;
+	int emails_list = 0;
+	int order = address_book->list->si_no;
 	do{
 		printf("what would you like to do:\n");
 		printf("0. Exit\n");
-		printf("1. Add Name: %s\n",game);
+		printf("1. Add Name: %s\n", nameing);
 		printf("2. Add phone number: %d\n", number);
 		printf("3. Add email: %s\n", email);
 		
@@ -154,23 +158,32 @@ Status add_contacts(AddressBook *address_book)
 
 		switch (choice){
 			case e_first_opt:
-				check = 0;
-				break;
+				if (names_list && numbers_list && emails_list){
+					address_book->list->si_no = address_book->list->si_no + 1;
+					check = 0;
+				}
+				else {
+					printf("Sorry, fill out the rest");
+				}
 		
 			case  e_second_opt:
-				game = get_option(CHAR,"Write what name you want to add:");
-				*address_book->list->name[sizeof(address_book->list->name)] = game;
+				strcpy(nameing,(char *)(uintptr_t) get_option(CHAR,"Write what name you want to add:"));
+				printf("%s",nameing);
+				names_list = 1;
+				strcpy(address_book->list->name[address_book->list->si_no],nameing);
 				break;
 			case  e_third_opt:
 				number = get_option(NUM,"Write the phone number you want to add:");
-				*address_book->list->phone_numbers[sizeof(address_book->list->phone_numbers)] = number;
+				numbers_list = 1;
+				*address_book->list->phone_numbers[order] = number;
 				break;
 			case  e_fourth_opt:
-				email = get_option(CHAR,"Write the email address you want to add:");
-				*address_book->list->email_addresses[sizeof(address_book->list->email_addresses)] = email;
+				strcpy(email,(char *)(uintptr_t)get_option(CHAR,"Write what email you want to add:"));
+				emails_list = 1;
+				strcpy(address_book->list->email_addresses[address_book->list->si_no],email);
 				break;
 		}
-	}while (check);
+	}while (check == 1);
 	return e_back;
 				
 }
