@@ -10,3 +10,5 @@ If you're a contributor, to get started see the following links:
 Project Outline: https://www.emertxe.com/embedded-systems/c-programming/c-projects/address-book-c/
 
 Project Specs Doc: https://github.com/tsmaz/AddressBook/blob/main/address_book.pdf
+
+For current features in development and issues you can claim, see: https://github.com/tsmaz/AddressBook/issues
