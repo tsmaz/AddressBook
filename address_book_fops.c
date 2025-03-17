@@ -11,10 +11,7 @@
 Status load_file(AddressBook *address_book)
 {
 	int ret;
-
-	FILE *file = fopen(address_book->fp, "r");
-  	if (file != NULL) {
-    	fclose(file);
+  	if (address_book->fp != NULL) {
     	ret = 0;
 	}
 	else {
@@ -24,29 +21,30 @@ Status load_file(AddressBook *address_book)
 	if (ret == 0)
 	{
 		int counter = address_book->count;
-		FILE *reader = fopen(address_book->fp, "r");
+		FILE *read = address_book->fp;
 		char temp[1024];
 		int column = 0;
-		while(fgets(temp,1024, reader)){
+		while(fgets(temp,1024, read)){
 			column = 0;
-			char value = strtok(temp, FIELD_DELIMITER);
+			char *value = strtok(temp, ",");
 			while (value){
 				if (column == 0){
-					*address_book->list->name = value;
+					strcpy(address_book->list->name[address_book->list->si_no],value);
 				}
 
 				if (column == 1){
-					*address_book->list->phone_numbers = value;
+					strcpy(address_book->list->phone_numbers[address_book->list->si_no],value);
 				}
 				if (column == 2){
-					*address_book->list->email_addresses = value;
+					strcpy(address_book->list->email_addresses[address_book->list->si_no],value);
 				}
-				value = strtok(NULL, FIELD_DELIMITER);
+				char *value = strtok(NULL, ",");
 				column++;
 			}
+			address_book->list->si_no = (address_book->list->si_no)+1;
 			
 		}
-		fclose(reader);
+		fclose(read);
 		
 
 	}
@@ -54,7 +52,7 @@ Status load_file(AddressBook *address_book)
 	{
 		FILE *ftpr;
 		ftpr = fopen(DEFAULT_FILE, "r");
-		if (ftpr == "NULL"){
+		if (ftpr == NULL){
 			printf("Failed");
 		}
 		else {

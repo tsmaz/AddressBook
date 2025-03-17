@@ -35,7 +35,6 @@ Status save_prompt(AddressBook *address_book)
 
 		if (option == 'Y')
 		{
-			save_file(address_book);
 			printf("Exiting. Data saved in %s\n", DEFAULT_FILE);
 
 			break;
@@ -65,7 +64,7 @@ void menu_header(const char *str)
 	system("clear");
 
 	printf("#######  Address Book  #######\n");
-	if (str != '\0')
+	if (*str != '\0')
 	{
 		printf("#######  %s\n", str);
 	}
@@ -123,7 +122,7 @@ Status menu(AddressBook *address_book)
 				break;
 				/* Add your implementation to call list_contacts function here */
 			case e_save:
-				save_file(address_book);
+				save_prompt(address_book);
 				break;
 			case e_exit:
 				break;
@@ -140,10 +139,12 @@ Status add_contacts(AddressBook *address_book)
 	printf("1. Add Name\n");
 	printf("2. Add phone number\n");
 	printf("3. Add email\n");
+	int check;
+	int choice;
 
 	do{
 		int check = 1;
-		choice = getoption(NUM,"");
+		choice = get_option(NUM,"");
 
 		switch (choice){
 			case e_first_opt:
@@ -151,16 +152,16 @@ Status add_contacts(AddressBook *address_book)
 				break;
 		
 			case  e_second_opt:
-				char name = get_option(CHAR,"Write what name you want to add:");
-				address_book->list->name[sizeof(address_book->list->name)] = name;
+				char game = get_option(CHAR,"Write what name you want to add:");
+				*address_book->list->name[sizeof(address_book->list->name)] = game;
 				break;
 			case  e_third_opt:
 				int number = get_option(NUM,"Write the phone number you want to add:");
-				address_book->list->phone_numbers[sizeof(address_book->list->phone_numbers)] = number;
+				*address_book->list->phone_numbers[sizeof(address_book->list->phone_numbers)] = number;
 				break;
 			case  e_fourth_opt:
-				char name = get_option(CHAR,"Write the email address you want to add:");
-				address_book->list->email_addresses[sizeof(address_book->list->email_addresses)] = name;
+				char email = get_option(CHAR,"Write the email address you want to add:");
+				*address_book->list->email_addresses[sizeof(address_book->list->email_addresses)] = email;
 				break;
 		}
 	}while (check);
