@@ -50,7 +50,6 @@ Status load_file(AddressBook *address_book)
 	else
 	{
 		address_book->fp = NULL;
-		printf("First set done");
 		address_book->fp = fopen(DEFAULT_FILE, "w");
 		if (address_book->fp == NULL){
 			printf("Failed");

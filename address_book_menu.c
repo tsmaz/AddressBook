@@ -13,14 +13,19 @@
 
 int get_option(int type, const char *msg)
 {
-	/*
-	 * Mutilfuction user intractions like
-	 * Just an enter key detection
-	 * Read an number
-	 * Read a charcter
-	 */ 
-
-	/* Fill the code to add above functionality */
+	int n;
+	char name;
+	printf("%s\n",msg);
+	switch(type){
+		case NUM:
+			scanf("%d", &n);
+			return n;
+		case CHAR:
+			scanf("%s", &name);
+			return name;
+		default:
+			return 0;
+	}
 }
 
 Status save_prompt(AddressBook *address_book)
@@ -61,8 +66,6 @@ void menu_header(const char *str)
 {
 	fflush(stdout);
 
-	system("clear");
-
 	printf("#######  Address Book  #######\n");
 	if (*str != '\0')
 	{
@@ -93,9 +96,9 @@ Status menu(AddressBook *address_book)
 
 	do
 	{
+		printf("hello");
 		main_menu();
-
-		option = get_option(NUM, "");
+		option = get_option(NUM,"");
 
 		if ((address_book-> count == 0) && (option != e_add_contact))
 		{
@@ -107,7 +110,7 @@ Status menu(AddressBook *address_book)
 		switch (option)
 		{
 			case e_add_contact:
-				/* Add your implementation to call add_contacts function here */
+				add_contacts(address_book);
 				break;
 			case e_search_contact:
 				search_contact(address_book);
@@ -134,15 +137,18 @@ Status menu(AddressBook *address_book)
 
 Status add_contacts(AddressBook *address_book)
 {
-	printf("what would you like to do:\n");
-	printf("0. Exit\n");
-	printf("1. Add Name\n");
-	printf("2. Add phone number\n");
-	printf("3. Add email\n");
 	int check;
 	int choice;
-
+	char game;
+	int number;
+	char email;
 	do{
+		printf("what would you like to do:\n");
+		printf("0. Exit\n");
+		printf("1. Add Name: %s\n",game);
+		printf("2. Add phone number: %d\n", number);
+		printf("3. Add email: %s\n", email);
+		
 		int check = 1;
 		choice = get_option(NUM,"");
 
@@ -152,15 +158,15 @@ Status add_contacts(AddressBook *address_book)
 				break;
 		
 			case  e_second_opt:
-				char game = get_option(CHAR,"Write what name you want to add:");
+				game = get_option(CHAR,"Write what name you want to add:");
 				*address_book->list->name[sizeof(address_book->list->name)] = game;
 				break;
 			case  e_third_opt:
-				int number = get_option(NUM,"Write the phone number you want to add:");
+				number = get_option(NUM,"Write the phone number you want to add:");
 				*address_book->list->phone_numbers[sizeof(address_book->list->phone_numbers)] = number;
 				break;
 			case  e_fourth_opt:
-				char email = get_option(CHAR,"Write the email address you want to add:");
+				email = get_option(CHAR,"Write the email address you want to add:");
 				*address_book->list->email_addresses[sizeof(address_book->list->email_addresses)] = email;
 				break;
 		}
