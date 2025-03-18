@@ -51,6 +51,8 @@ Status load_file(AddressBook *address_book)
 	{
 		address_book->fp = NULL;
 		address_book->fp = fopen(DEFAULT_FILE, "w");
+		address_book->count = 0;
+		address_book->list = (ContactInfo *)malloc(sizeof(ContactInfo)*100);
 		if (address_book->fp == NULL){
 			printf("Failed");
 		}

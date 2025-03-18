@@ -145,7 +145,12 @@ Status add_contacts(AddressBook *address_book)
 	int names_list = 0;
 	int	numbers_list = 0;
 	int emails_list = 0;
-	int order = address_book->list->si_no;
+	int order = address_book->count;
+	order++;
+	printf("Adding contact %d at index %d\n", order, address_book->count);
+	address_book->list[address_book->count].si_no = order;
+	printf("Assigned si_no: %d to contact at index %d\n", order + 1, address_book->count);
+	printf("WHATS THE PROBLEM??");
 	do{
 		printf("what would you like to do:\n");
 		printf("0. Exit\n");
@@ -158,29 +163,29 @@ Status add_contacts(AddressBook *address_book)
 
 		switch (choice){
 			case e_first_opt:
-				if (names_list && numbers_list && emails_list){
-					address_book->list->si_no = address_book->list->si_no + 1;
+				if (names_list == 1){
+					address_book->count++;
 					check = 0;
 				}
 				else {
-					printf("Sorry, fill out the rest");
+					printf("Sorry, make sure the name is filled before sending");
 				}
 		
 			case  e_second_opt:
 				strcpy(nameing,(char *)(uintptr_t) get_option(CHAR,"Write what name you want to add:"));
 				printf("%s",nameing);
 				names_list = 1;
-				strcpy(address_book->list->name[address_book->list->si_no],nameing);
+				strcpy(address_book->list[address_book->count].name[0],nameing);
 				break;
 			case  e_third_opt:
 				number = get_option(NUM,"Write the phone number you want to add:");
-				numbers_list = 1;
-				*address_book->list->phone_numbers[order] = number;
+				*address_book->list[address_book->count].phone_numbers[numbers_list] = number;
+				numbers_list++;
 				break;
 			case  e_fourth_opt:
 				strcpy(email,(char *)(uintptr_t)get_option(CHAR,"Write what email you want to add:"));
-				emails_list = 1;
-				strcpy(address_book->list->email_addresses[address_book->list->si_no],email);
+				strcpy(address_book->list[address_book->count].email_addresses[emails_list],email);
+				emails_list++;
 				break;
 		}
 	}while (check == 1);
