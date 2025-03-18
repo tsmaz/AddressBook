@@ -13,20 +13,14 @@
 
 int get_option(int type, const char *msg)
 {
-	int n;
-	char name;
-	printf("%s\n",msg);
-	switch(type){
-		case NUM:
-			scanf("%d", &n);
-			return n;
-		case CHAR:
-			scanf("%s", &name);
-			return name;
-		default:
-			return 0;
-	}
+	/*
+	 * Mutilfuction user intractions like
+	 * Just an enter key detection
+	 * Read an number
+	 * Read a charcter
+	 */ 
 
+	/* Fill the code to add above functionality */
 }
 
 Status save_prompt(AddressBook *address_book)
