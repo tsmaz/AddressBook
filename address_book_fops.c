@@ -10,15 +10,15 @@
 Status load_file(AddressBook *address_book)
 {
 	int ret;
-  	if (address_book->fp == NULL) {
+  	if (address_book->fp == DEFAULT_FILE) {
     	ret = 0;
 	}
 	else {
 		ret = 1;
 	}
-	printf("%d",ret);
 	if (ret == 0)
 	{
+		//this section needs testing, but I can't save anything inside a csv
 		int counter = address_book->count;
 		FILE *read = address_book->fp;
 		char temp[1024];
@@ -28,7 +28,7 @@ Status load_file(AddressBook *address_book)
 			char *value = strtok(temp, ",");
 			while (value){
 				if (column == 0){
-					strcpy(address_book->list->name[address_book->list->si_no],value);
+					strcpy(address_book->list[]],value);
 				}
 
 				if (column == 1){
