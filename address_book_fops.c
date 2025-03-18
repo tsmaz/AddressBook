@@ -10,8 +10,9 @@
 Status load_file(AddressBook *address_book)
 {
 	int ret;
-  	if (address_book->fp == DEFAULT_FILE) {
-    	ret = 0;
+	FILE *f =fopen(DEFAULT_FILE,"r");
+  	if (f != NULL) { 
+		ret = 0;
 	}
 	else {
 		ret = 1;
@@ -19,31 +20,52 @@ Status load_file(AddressBook *address_book)
 	if (ret == 0)
 	{
 		//this section needs testing, but I can't save anything inside a csv
-		int counter = address_book->count;
-		FILE *read = address_book->fp;
+		int counter;
+		address_book->fp = f;
 		char temp[1024];
 		int column = 0;
-		while(fgets(temp,1024, read)){
+		int counting;
+		address_book->list = (ContactInfo *)malloc(sizeof(ContactInfo)*100);
+		while(fgets(temp,1024, f)){
 			column = 0;
 			char *value = strtok(temp, ",");
 			while (value){
 				if (column == 0){
-					strcpy(address_book->list[]],value);
+					strcpy(address_book->list[counter].name[0],value);
 				}
 
 				if (column == 1){
-					strcpy(address_book->list->phone_numbers[address_book->list->si_no],value);
+					char *numerator = strtok(value, "\n");
+					while (numerator){
+						strcpy(address_book->list[counter].phone_numbers[counting],numerator);
+						counting++;
+						char *numerator = strtok(NULL, "\n");
+
+					}
+					counting = 0;
+
 				}
 				if (column == 2){
-					strcpy(address_book->list->email_addresses[address_book->list->si_no],value);
+					char *numerator = strtok(value, "\n");
+					while (numerator){
+						strcpy(address_book->list[counter].email_addresses[counting],numerator);
+						counting++;
+						char *numerator = strtok(NULL, "\n");
+
+					}
+					counting = 0;
 				}
 				char *value = strtok(NULL, ",");
 				column++;
+
 			}
-			address_book->list->si_no = (address_book->list->si_no)+1;
+			address_book->list[counter].si_no = counter;
+			counter++;
+
+
 			
 		}
-		fclose(read);
+		address_book->count = counter;
 		
 
 	}
