@@ -150,10 +150,81 @@ Status search_contact(AddressBook *address_book)
 
 Status edit_contact(AddressBook *address_book)
 {
-	/* Add the functionality for edit contacts here */
+	
 }
 
 Status delete_contact(AddressBook *address_book)
 {
-	/* Add the functionality for delete contacts here */
+	char name[NAME_LEN];
+	char email[EMAIL_ID_LEN];
+	char phone[NUMBER_LEN];
+	int index = -1;
+	menu_header("Delete contact:\n");
+	printf("1. Delete by name\n");
+	printf("2. Delete by phone number\n");
+	printf("3. Delete by email\n");
+	printf("4. Delete by ID\n");
+	printf("\nPlease select an option: ");
+	int option = get_option(NUM, "");
+
+	if (option == 1) {
+		printf("Please enter the name: ");
+		fgets(name, sizeof(name), stdin);
+		name[strcspn(name, "\n")] = 0;
+		for (int i = 0; i < address_book->count; i++) {
+			ContactInfo *contact = &address_book->list[i];
+			if (strcasecmp(contact->name[0], name) == 0) {
+				index = i;
+				break;
+			}
+		}
+	} else if (option == 2) {
+		printf("Please enter the phone number: ");
+		fgets(phone, sizeof(phone), stdin);
+		phone[strcspn(phone, "\n")] = 0;
+		for (int i = 0; i < address_book->count; i++) {
+			ContactInfo *contact = &address_book->list[i];
+			for (int j = 0; j < PHONE_NUMBER_COUNT; j++) {
+				if (strcasecmp(contact->phone_numbers[j], phone) == 0){
+					index = i;
+					break;
+				}
+			}
+			if (index != -1) {
+				break;
+			}
+		}
+	} else if (option == 3) {
+		printf("Please enter the email: ");
+		fgets(email, sizeof(email), stdin);
+		email[strcspn(email, "\n")] = 0;
+		for (int i = 0; i < address_book->count; i++) {
+			ContactInfo *contact = &address_book->list[i];
+			for (int j = 0; j < EMAIL_ID_COUNT; j++) {
+				if (strcasecmp(contact->email_addresses[j], email) == 0){
+					index = i;
+					break;
+				}
+			}
+			if (index != -1) {
+				break;
+			}
+		}
+	}
+
+	if (index == -1) {
+		printf("No contact found.\n");
+		return e_no_match;
+	} else {
+		printf("Contact found. Deleting...\n");
+	}
+
+	for (int i = index; i < address_book->count - 1; i++) {
+		address_book->list[i] = address_book->list[i + 1];
+	}
+	ContactInfo *last_contact = &address_book->list[address_book->count - 1];
+    memset(last_contact, 0, sizeof(ContactInfo));
+	address_book->count--;
+	printf("Contact successfully deleted.\n");
+	return e_success;
 }
