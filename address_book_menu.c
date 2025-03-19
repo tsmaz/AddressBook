@@ -13,14 +13,19 @@
 
 int get_option(int type, const char *msg)
 {
-	/*
-	 * Mutilfuction user intractions like
-	 * Just an enter key detection
-	 * Read an number
-	 * Read a charcter
-	 */ 
-
-	/* Fill the code to add above functionality */
+	int n;
+	char name;
+	printf("%s\n",msg);
+	switch(type){
+		case NUM:
+			scanf("%d", &n);
+			return n;
+		case CHAR:
+			scanf("%s", &name);
+			return name;
+		default:
+			return 0;
+	}
 }
 
 Status save_prompt(AddressBook *address_book)
@@ -35,7 +40,6 @@ Status save_prompt(AddressBook *address_book)
 
 		if (option == 'Y')
 		{
-			save_file(address_book);
 			printf("Exiting. Data saved in %s\n", DEFAULT_FILE);
 
 			break;
@@ -62,10 +66,8 @@ void menu_header(const char *str)
 {
 	fflush(stdout);
 
-	system("clear");
-
 	printf("#######  Address Book  #######\n");
-	if (str != '\0')
+	if (*str != '\0')
 	{
 		printf("#######  %s\n", str);
 	}
@@ -95,8 +97,7 @@ Status menu(AddressBook *address_book)
 	do
 	{
 		main_menu();
-
-		option = get_option(NUM, "");
+		option = get_option(NUM,"");
 
 		if ((address_book-> count == 0) && (option != e_add_contact))
 		{
@@ -108,7 +109,7 @@ Status menu(AddressBook *address_book)
 		switch (option)
 		{
 			case e_add_contact:
-				/* Add your implementation to call add_contacts function here */
+				add_contacts(address_book);
 				break;
 			case e_search_contact:
 				search_contact(address_book);
@@ -123,7 +124,7 @@ Status menu(AddressBook *address_book)
 				break;
 				/* Add your implementation to call list_contacts function here */
 			case e_save:
-				save_file(address_book);
+				save_prompt(address_book);
 				break;
 			case e_exit:
 				break;
@@ -135,7 +136,70 @@ Status menu(AddressBook *address_book)
 
 Status add_contacts(AddressBook *address_book)
 {
-	/* Add the functionality for adding contacts here */
+	while (getchar() != '\n');
+	int check = 1;
+	int choice;
+	char nameing[100] = "\0";
+	char number[100];
+	char email[100];
+	int names_list = 0;
+	int	numbers_list = 0;
+	int emails_list = 0;
+	int order = address_book->count;
+	order++;
+	address_book->list[address_book->count].si_no = order;
+	do{
+		
+		printf("what would you like to do:\n");
+		printf("0. Exit\n");
+		printf("1. Add Name: %s\n", nameing);
+		if (numbers_list == 0){
+			printf("2. Add phone number: \n");
+		}
+		else{
+			printf("2. Add phone number: %s\n", number);
+		}
+		printf("3. Add email: %s\n", email);
+		choice = get_option(NUM,"Please select an option: ");
+
+		switch (choice){
+			case e_first_opt:
+				if (names_list == 1){
+					address_book->count++;
+					check = 0;
+				}
+				else {
+					printf("Sorry, make sure the name is filled before sending\n");
+				}
+				break;
+		
+			case e_second_opt:
+				printf("Write the name you want to add:");
+				scanf("%s", &nameing);
+				strcpy(address_book->list[address_book->count].name[0],nameing);
+				names_list = 1;
+				break;
+			case  e_third_opt:
+				printf("Write the phone number you want to add:");
+				scanf("%s", &number);
+				strcpy(address_book->list[address_book->count].phone_numbers[numbers_list],number);
+				numbers_list++;
+				break;
+			case  e_fourth_opt:
+				printf("Write what email you want to add:");
+				scanf("%s",&email);
+				strcpy(address_book->list[address_book->count].email_addresses[emails_list],email);
+				emails_list++;
+				break;
+			default:
+				printf("Sorry, try again\n");
+				
+
+		}
+		while (getchar() != '\n');
+	}while (check != 0);
+	return e_back;
+				
 }
 
 Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
