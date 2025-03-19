@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include "address_book.h"
 #include "address_book_menu.h"
+#include "address_book_fops.h"
 
 //#include "abk_fileops.h"
 //#include "abk_log.h"
@@ -193,11 +194,10 @@ Status add_contacts(AddressBook *address_book)
 				break;
 			default:
 				printf("Sorry, try again\n");
-				
-
 		}
 		while (getchar() != '\n');
 	}while (check != 0);
+
 	return e_back;
 				
 }
