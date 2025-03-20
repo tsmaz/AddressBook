@@ -297,14 +297,167 @@ Status add_contacts(AddressBook *address_book)
 	return e_back;
 }
 
-Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
-{
-	/* Add the functionality for adding contacts here */
-}
-
 Status search_contact(AddressBook *address_book)
 {
-	/* Add the functionality for search contacts here */
+    int userSelection;
+    char search_term[32];
+    int i, j;
+    int contactFound;
+    char input;
+    
+    if (address_book->count == 0)
+    {
+        printf("\nNo entries found! Please add contacts first.\n");
+        return e_no_match;
+    }
+    
+    do
+    {
+        printf("\n###### Search Contact ######\n");
+        printf("0. Back\n");
+        printf("1. By Name\n");
+        printf("2. By Phone Number\n");
+        printf("3. By Email ID\n");
+        printf("\n");
+        
+        userSelection = get_option(NUM, "Please select an option: ");
+        
+        if (userSelection == 0)
+        {
+            break;
+        }
+        
+        while (getchar() != '\n');
+        
+        switch (userSelection)
+        {
+            case 1:
+                printf("Enter name: ");
+                break;
+            case 2:
+                printf("Enter phone number: ");
+                break;
+            case 3:
+                printf("Enter email: ");
+                break;
+            default:
+                printf("Invalid option. Please try again.\n");
+                continue;
+        }
+        
+        fgets(search_term, sizeof(search_term), stdin);
+        search_term[strcspn(search_term, "\n")] = '\0';
+        
+        printf("\n#######  Address Book  #######\n");
+        printf("#######  Search Result:\n\n");
+        printf("===============================================================================================\n");
+        printf(": S.No : Name                            : Phone No                       : Email ID                        :\n");
+        printf("===============================================================================================\n");
+        
+        contactFound = 0;
+        for (i = 0; i < address_book->count; i++)
+        {
+            int isMatchFound = 0;
+            
+            if (userSelection == 1)
+            {
+                if (strstr(*address_book->list[i].name, search_term) != NULL)
+                {
+                    isMatchFound = 1;
+                }
+            }
+
+            else if (userSelection == 2) 
+            {
+                for (j = 0; j < PHONE_NUMBER_COUNT; j++)
+                {
+                    if (address_book->list[i].phone_numbers[j][0] != '\0' &&
+                        strstr(address_book->list[i].phone_numbers[j], search_term) != NULL)
+                    {
+                        isMatchFound = 1;
+                        break;
+                    }
+                }
+            }
+
+            else if (userSelection == 3)
+            {
+                for (j = 0; j < EMAIL_ID_COUNT; j++)
+                {
+                    if (address_book->list[i].email_addresses[j][0] != '\0' &&
+                        strstr(address_book->list[i].email_addresses[j], search_term) != NULL)
+                    {
+                        isMatchFound = 1;
+                        break;
+                    }
+                }
+            }
+            
+            if (isMatchFound)
+            {
+                contactFound = 1;
+                printf(": %-4d : %-32s :", i + 1, *address_book->list[i].name);
+                
+                for (j = 0; j < PHONE_NUMBER_COUNT; j++)
+                {
+                    if (address_book->list[i].phone_numbers[j][0] != '\0')
+                    {
+                        if (j == 0)
+                        {
+                            printf(" %-32s :", address_book->list[i].phone_numbers[j]);
+                        }
+                        else
+                        {
+                            printf("\n:      :                                : %-32s :", address_book->list[i].phone_numbers[j]);
+                        }
+                    }
+                }
+                
+                for (j = 0; j < EMAIL_ID_COUNT; j++)
+                {
+                    if (address_book->list[i].email_addresses[j][0] != '\0')
+                    {
+                        if (j == 0 && address_book->list[i].phone_numbers[0][0] != '\0')
+                        {
+                            printf(" %-32s :", address_book->list[i].email_addresses[j]);
+                        }
+                        else if (j == 0)
+                        {
+                            printf("                                : %-32s :", address_book->list[i].email_addresses[j]);
+                        }
+                        else
+                        {
+                            printf("\n:      :                                :                                : %-32s :", address_book->list[i].email_addresses[j]);
+                        }
+                    }
+                }
+                
+                printf("\n");
+            }
+        }
+        
+        if (contactFound == 0)
+        {
+            printf(": No matching contacts found\n");
+        }
+        
+        printf("===============================================================================================\n");
+        printf("Press any key to continue or 'q' to Cancel: ");
+        {
+            char buffer[10];
+            if (fgets(buffer, sizeof(buffer), stdin) != NULL)
+            {
+                input = buffer[0];
+            }
+            else
+            {
+                input = '\n';
+            }
+        }
+        
+    } while (userSelection != 0 && input != 'q');
+    
+    return e_success;
 }
 
 Status edit_contact(AddressBook *address_book)
