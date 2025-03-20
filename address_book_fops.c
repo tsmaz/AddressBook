@@ -46,13 +46,13 @@ Status load_file(AddressBook *address_book)
 					counting = 0;
 					char *phone_copy = strdup(value);
 					char *saveptr2;
-					char *phone = strtok_r(phone_copy, "\\n", &saveptr2);
+					char *phone = strtok_r(phone_copy, " ", &saveptr2);
 
 					while (phone && counting < PHONE_NUMBER_COUNT)
 					{
 						strcpy(address_book->list[counter].phone_numbers[counting], phone);
 						counting++;
-						phone = strtok_r(NULL, "\\n", &saveptr2);
+						phone = strtok_r(NULL, " ", &saveptr2);
 					}
 					free(phone_copy);
 				}
@@ -61,13 +61,13 @@ Status load_file(AddressBook *address_book)
 					counting = 0;
 					char *email_copy = strdup(value);
 					char *saveptr3;
-					char *email = strtok_r(email_copy, "\\n", &saveptr3);
+					char *email = strtok_r(email_copy, " ", &saveptr3);
 
 					while (email && counting < EMAIL_ID_COUNT)
 					{
 						strcpy(address_book->list[counter].email_addresses[counting], email);
 						counting++;
-						email = strtok_r(NULL, "\\n", &saveptr3);
+						email = strtok_r(NULL, " ", &saveptr3);
 					}
 					free(email_copy);
 				}
