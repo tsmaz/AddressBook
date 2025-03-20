@@ -127,7 +127,6 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 
 	// Display pagination information
 	printf("\nPage %d of %d\n", *index + 1, total_pages);
-
 	// Get option
 	do
 	{
