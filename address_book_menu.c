@@ -130,6 +130,7 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 	// Get option
 	do
 	{
+		
 		option = get_option(CHAR, "Press: [n] = Next Page, Press: [p] = Previous Page, Press: [q] | Cancle: ");
 		
 		if (option == 'n')
