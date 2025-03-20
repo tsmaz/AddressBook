@@ -150,7 +150,92 @@ Status search_contact(AddressBook *address_book)
 
 Status edit_contact(AddressBook *address_book)
 {
-	
+	int index = -1;
+	menu_header("Edit contact:\n");
+	printf("1. Find by name\n");
+	printf("2. Find by phone number\n");
+	printf("3. Find by email\n");
+	printf("4. Find by ID\n");
+	printf("\nPlease select an option: ");
+	int option = get_option(NUM, "");
+
+	int option = get_option(NUM, "");
+
+	if (option == 1) {
+		printf("Please enter the name: ");
+		fgets(name, sizeof(name), stdin);
+		name[strcspn(name, "\n")] = 0;
+		for (int i = 0; i < address_book->count; i++) {
+			ContactInfo *contact = &address_book->list[i];
+			if (strcasecmp(contact->name[0], name) == 0) {
+				index = i;
+				break;
+			}
+		}
+	} else if (option == 2) {
+		printf("Please enter the phone number: ");
+		fgets(phone, sizeof(phone), stdin);
+		phone[strcspn(phone, "\n")] = 0;
+		for (int i = 0; i < address_book->count; i++) {
+			ContactInfo *contact = &address_book->list[i];
+			for (int j = 0; j < PHONE_NUMBER_COUNT; j++) {
+				if (strcasecmp(contact->phone_numbers[j], phone) == 0){
+					index = i;
+					break;
+				}
+			}
+			if (index != -1) {
+				break;
+			}
+		}
+	} else if (option == 3) {
+		printf("Please enter the email: ");
+		fgets(email, sizeof(email), stdin);
+		email[strcspn(email, "\n")] = 0;
+		for (int i = 0; i < address_book->count; i++) {
+			ContactInfo *contact = &address_book->list[i];
+			for (int j = 0; j < EMAIL_ID_COUNT; j++) {
+				if (strcasecmp(contact->email_addresses[j], email) == 0){
+					index = i;
+					break;
+				}
+			}
+			if (index != -1) {
+				break;
+			}
+		}
+	}
+
+	if (index == -1) {
+		printf("No contact found.\n");
+		return e_no_match;
+	} 
+
+	menu_header("Editing found contact:\n");
+	printf("1. Edit name\n");
+	printf("2. Edit phone number\n");
+	printf("3. Edit email\n");
+	printf("4. Main Menu\n");
+	printf("\nPlease select an option: ");
+	option = get_option(NUM, "");
+
+	if (option == 1) {
+		printf("Please enter the new name: ");
+		fgets(address_book->list[index].name[0], NAME_LEN, stdin);
+    	address_book->list[index].name[0][strcspn(address_book->list[index].name[0], "\n")] = 0;
+		printf("Name updated!");
+		return e_success;
+	} else if (option == 2) {
+		printf("Phone numbers for %s:\n", contact->name[0]);
+    	for (int j = 0; j < PHONE_NUMBER_COUNT; j++) {
+        	if (contact->phone_numbers[j][0] != '\0') {  
+            	printf("%d. %s\n", j + 1, contact->phone_numbers[j]);
+        	}
+    	}
+		printf("\nPlease select an option: ");
+		option = get_option(NUM, "");
+		
+	}
 }
 
 Status delete_contact(AddressBook *address_book)
