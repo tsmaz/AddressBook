@@ -42,13 +42,10 @@ Status save_prompt(AddressBook *address_book)
 
 		if (option == 'Y')
 		{
-			printf("Exiting. Data saved in %s\n", DEFAULT_FILE);
-
+			save_file(address_book);
 			break;
 		}
 	} while (option != 'N');
-
-	free(address_book->list);
 
 	return e_success;
 }
@@ -130,7 +127,7 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 	// Get option
 	do
 	{
-		
+
 		option = get_option(CHAR, "Press: [n] = Next Page, Press: [p] = Previous Page, Press: [q] | Cancle: ");
 		
 		if (option == 'n')

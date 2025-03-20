@@ -82,7 +82,6 @@ Status load_file(AddressBook *address_book)
 		}
 		address_book->count = counter;
 
-
 		// Debug
 		printf("Address book loaded successfully\n");
 		for (int contact = 0; contact < address_book->count; contact++)
@@ -124,28 +123,38 @@ Status save_file(AddressBook *address_book)
 		return e_fail;
 	}
 
+	// Write to file
 	for (int i = 0; i < address_book->count; i++)
 	{
+		printf("Exiting. Data saved in address_book.csv\n");
 		fprintf(address_book->fp, "%s,", address_book->list[i].name[0]);
 
 		// Write phone numbers
-		int j;
-		for (j = 0; j < PHONE_NUMBER_COUNT && address_book->list[i].phone_numbers[j][0] != '\0'; j++)
+		if (address_book->list[i].phone_numbers[0][0] == '\0'){
+			fprintf(address_book->fp, " ");
+		}
+		for (int j = 0; j < PHONE_NUMBER_COUNT && address_book->list[i].phone_numbers[j][0] != '\0'; j++)
 		{
 			if (j > 0)
-				fprintf(address_book->fp, "\\n");
+				fprintf(address_book->fp, " ");
 			fprintf(address_book->fp, "%s", address_book->list[i].phone_numbers[j]);
 		}
 		fprintf(address_book->fp, ",");
 
 		// Write email addresses
-		for (j = 0; j < EMAIL_ID_COUNT && address_book->list[i].email_addresses[j][0] != '\0'; j++)
+		if (address_book->list[i].email_addresses[0][0] == '\0'){
+			fprintf(address_book->fp, " ");
+		}
+		for (int j = 0; j < EMAIL_ID_COUNT && address_book->list[i].email_addresses[j][0] != '\0'; j++)
 		{
 			if (j > 0)
-				fprintf(address_book->fp, "\\n");
+				fprintf(address_book->fp, " ");
 			fprintf(address_book->fp, "%s", address_book->list[i].email_addresses[j]);
 		}
-		fprintf(address_book->fp, "\n");
+		fprintf(address_book->fp, ",");
+
+		address_book->list[i].si_no = i + 1;
+		fprintf(address_book->fp, "%d\n", address_book->list[i].si_no);
 	}
 
 	fclose(address_book->fp);
