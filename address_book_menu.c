@@ -150,15 +150,17 @@ Status search_contact(AddressBook *address_book)
 
 Status edit_contact(AddressBook *address_book)
 {
+	char name[NAME_LEN];
+	char phone[NUMBER_LEN];
+	char email[EMAIL_ID_LEN];
 	int index = -1;
+	ContactInfo *contact = &address_book->list[index];
 	menu_header("Edit contact:\n");
 	printf("1. Find by name\n");
 	printf("2. Find by phone number\n");
 	printf("3. Find by email\n");
 	printf("4. Find by ID\n");
 	printf("\nPlease select an option: ");
-	int option = get_option(NUM, "");
-
 	int option = get_option(NUM, "");
 
 	if (option == 1) {
@@ -234,7 +236,35 @@ Status edit_contact(AddressBook *address_book)
     	}
 		printf("\nPlease select an option: ");
 		option = get_option(NUM, "");
+
+		if (option < 1 || option > PHONE_NUMBER_COUNT || contact->phone_numbers[option - 1][0] == '\0') {
+			printf("Invalid selection.\n");
+			return e_fail;
+		}
 		
+		printf("Please enter the new phone number: ");
+		fgets(address_book->list[index].phone_numbers[option - 1], NUMBER_LEN, stdin);
+		printf("\nPhone number changed!");
+		return e_success;
+	} else if (option == 3) {
+		printf("Emails for %s:\n", contact->name[0]);
+    	for (int j = 0; j < EMAIL_ID_COUNT; j++) {
+        	if (contact->email_addresses[j][0] != '\0') {  
+            	printf("%d. %s\n", j + 1, contact->email_addresses[j]);
+        	}
+    	}
+		printf("\nPlease select an option: ");
+		option = get_option(NUM, "");
+
+		if (option < 1 || option > EMAIL_ID_COUNT || contact->email_addresses[option - 1][0] == '\0') {
+			printf("Invalid selection.\n");
+			return e_fail;
+		}
+		
+		printf("Please enter the new email: ");
+		fgets(address_book->list[index].email_addresses[option - 1], EMAIL_ID_LEN, stdin);
+		printf("\nEmail changed!");
+		return e_success;
 	}
 }
 
