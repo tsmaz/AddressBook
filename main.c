@@ -9,7 +9,7 @@
 
 int main(void)
 {
-	AddressBook address_book;
+	AddressBook address_book = {0};
 	Status ret;
 
 	ret = load_file(&address_book);
