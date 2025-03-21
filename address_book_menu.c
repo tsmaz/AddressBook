@@ -517,7 +517,7 @@ Status edit_contact(AddressBook *address_book)
 		}
 	} else if (option == 2) {
 		printf("Please enter the phone number: ");
-		scanf("%s", number);
+		scanf("%s", phone);
 		for (int i = 0; i < address_book->count; i++) {
 			ContactInfo *contact = &address_book->list[i];
 			for (int j = 0; j < PHONE_NUMBER_COUNT; j++) {
