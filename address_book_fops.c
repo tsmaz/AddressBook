@@ -86,7 +86,7 @@ Status load_file(AddressBook *address_book)
 		printf("Address book loaded successfully\n");
 		for (int contact = 0; contact < address_book->count; contact++)
 		{
-			printf("Contact Name: %s\n", address_book->list[contact].name);
+			printf("Contact Name: %s\n", address_book->list[contact].name[0]);
 
 			for (int i = 0; address_book->list[contact].phone_numbers[i][0] != '\0'; i++)
 			{
