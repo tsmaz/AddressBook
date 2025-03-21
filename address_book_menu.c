@@ -507,8 +507,7 @@ Status edit_contact(AddressBook *address_book)
 
 	if (option == 1) {
 		printf("Please enter the name: ");
-		fgets(name, sizeof(name), stdin);
-		name[strcspn(name, "\n")] = 0;
+		scanf("%s", name);
 		for (int i = 0; i < address_book->count; i++) {
 			ContactInfo *contact = &address_book->list[i];
 			if (strcasecmp(contact->name[0], name) == 0) {
@@ -518,8 +517,7 @@ Status edit_contact(AddressBook *address_book)
 		}
 	} else if (option == 2) {
 		printf("Please enter the phone number: ");
-		fgets(phone, sizeof(phone), stdin);
-		phone[strcspn(phone, "\n")] = 0;
+		scanf("%s", number);
 		for (int i = 0; i < address_book->count; i++) {
 			ContactInfo *contact = &address_book->list[i];
 			for (int j = 0; j < PHONE_NUMBER_COUNT; j++) {
@@ -534,8 +532,7 @@ Status edit_contact(AddressBook *address_book)
 		}
 	} else if (option == 3) {
 		printf("Please enter the email: ");
-		fgets(email, sizeof(email), stdin);
-		email[strcspn(email, "\n")] = 0;
+		scanf("%s", email);
 		for (int i = 0; i < address_book->count; i++) {
 			ContactInfo *contact = &address_book->list[i];
 			for (int j = 0; j < EMAIL_ID_COUNT; j++) {
@@ -565,8 +562,7 @@ Status edit_contact(AddressBook *address_book)
 
 	if (option == 1) {
 		printf("Please enter the new name: ");
-		fgets(address_book->list[index].name[0], NAME_LEN, stdin);
-    	address_book->list[index].name[0][strcspn(address_book->list[index].name[0], "\n")] = 0;
+		scanf("%s", address_book->list[index].name[0]);
 		printf("Name updated!");
 		return e_success;
 	} else if (option == 2) {
@@ -585,7 +581,7 @@ Status edit_contact(AddressBook *address_book)
 		}
 		
 		printf("Please enter the new phone number: ");
-		fgets(address_book->list[index].phone_numbers[option - 1], NUMBER_LEN, stdin);
+		scanf("%s", address_book->list[index].phone_numbers[option - 1]);
 		printf("\nPhone number changed!");
 		return e_success;
 	} else if (option == 3) {
@@ -604,7 +600,7 @@ Status edit_contact(AddressBook *address_book)
 		}
 		
 		printf("Please enter the new email: ");
-		fgets(address_book->list[index].email_addresses[option - 1], EMAIL_ID_LEN, stdin);
+		scanf("%s", address_book->list[index].email_addresses[option - 1]);
 		printf("\nEmail changed!");
 		return e_success;
 	}
@@ -628,8 +624,7 @@ Status delete_contact(AddressBook *address_book)
 
 	if (option == 1) {
 		printf("Please enter the name: ");
-		fgets(name, sizeof(name), stdin);
-		name[strcspn(name, "\n")] = 0;
+		scanf("%s", name);
 		for (int i = 0; i < address_book->count; i++) {
 			ContactInfo *contact = &address_book->list[i];
 			if (strcasecmp(contact->name[0], name) == 0) {
@@ -639,8 +634,7 @@ Status delete_contact(AddressBook *address_book)
 		}
 	} else if (option == 2) {
 		printf("Please enter the phone number: ");
-		fgets(phone, sizeof(phone), stdin);
-		phone[strcspn(phone, "\n")] = 0;
+		scanf("%s", phone);
 		for (int i = 0; i < address_book->count; i++) {
 			ContactInfo *contact = &address_book->list[i];
 			for (int j = 0; j < PHONE_NUMBER_COUNT; j++) {
@@ -655,8 +649,7 @@ Status delete_contact(AddressBook *address_book)
 		}
 	} else if (option == 3) {
 		printf("Please enter the email: ");
-		fgets(email, sizeof(email), stdin);
-		email[strcspn(email, "\n")] = 0;
+		scanf("%s", email);
 		for (int i = 0; i < address_book->count; i++) {
 			ContactInfo *contact = &address_book->list[i];
 			for (int j = 0; j < EMAIL_ID_COUNT; j++) {
