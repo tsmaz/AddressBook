@@ -269,19 +269,19 @@ Status add_contacts(AddressBook *address_book)
 		
 			case e_second_opt:
 				printf("Write the name you want to add: ");
-				scanf("%s", &nameing);
+				scanf("%s", nameing);
 				strcpy(address_book->list[address_book->count].name[0],nameing);
 				names_list = 1;
 				break;
 			case  e_third_opt:
 				printf("Write the phone number you want to add: ");
-				scanf("%s", &number);
+				scanf("%s", number);
 				strcpy(address_book->list[address_book->count].phone_numbers[numbers_list],number);
 				numbers_list++;
 				break;
 			case  e_fourth_opt:
 				printf("Write what email you want to add: ");
-				scanf("%s",&email);
+				scanf("%s",email);
 				strcpy(address_book->list[address_book->count].email_addresses[emails_list],email);
 				emails_list++;
 				break;
@@ -608,6 +608,8 @@ Status edit_contact(AddressBook *address_book)
 		printf("\nEmail changed!");
 		return e_success;
 	}
+
+	return e_fail;
 }
 
 Status delete_contact(AddressBook *address_book)
