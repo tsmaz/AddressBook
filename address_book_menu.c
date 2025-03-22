@@ -210,7 +210,7 @@ Status menu(AddressBook *address_book)
 			delete_contact(address_book);
 			break;
 		case e_list_contacts:
-			list_contacts(address_book, "Search Result", &page_index, "", e_list);
+			list_contacts(address_book, "All Contacts:", &page_index, "", e_list);
 			break;
 		case e_save:
 			save_prompt(address_book);
@@ -511,7 +511,7 @@ Status edit_contact(AddressBook *address_book)
     
     do
     {
-        printf("\n###### Edit Contact ######\n");
+        menu_header("Search Contact To Edit");
         printf("0. Back\n");
         printf("1. By Name\n");
         printf("2. By Phone Number\n");
@@ -784,7 +784,7 @@ Status delete_contact(AddressBook *address_book)
     
     do
     {
-        printf("\n###### Delete Contact ######\n");
+        menu_header("Search Contact To Delete:");
         printf("0. Back\n");
         printf("1. By Name\n");
         printf("2. By Phone Number\n");
