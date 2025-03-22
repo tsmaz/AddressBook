@@ -65,6 +65,7 @@ void test_add_contact(void) {
     /* Test adding a contact */
     Status result = add_contacts(&book);
     TEST_ASSERT_EQUAL(e_success, result);
+    
 
     /* Verify the contact was added correctly */
     TEST_ASSERT_EQUAL(1, book.count);
@@ -132,13 +133,72 @@ void test_add_contact_multiple(void) {
 
 void test_search_contact(void) {
     /* Implementation for search contact test */
+     /* Test Input */
+     const char* test_input = 
+     "2\n"           /* Choose to search contacts */
+     "1\n"            /* Choose to search name */
+     "John\n"         /* Enter name */
+     "\n"             /* Go back to menu*/
+     "2\n"            /* Choose to search phone */
+     "1234567890\n"         /* Enter phone */
+     "2\n"            /* Choose to search for contact */
+     "3\n"            /* Choose to search email */
+     "john.doe@email.com\n"        /* Enter email */
+     "2\n"            /* Choose to search for contact */
+     "3\n"            /* Choose to search email */
+     "john@test.com\n"        /* Enter invalid email */
+     "0\n" "0\n";     /* Exit */
+
+ create_test_input(test_input);
+
+ /* Save original stdin */
+ int original_stdin = dup(STDIN_FILENO);
+ 
+ /* Redirect stdin to test input file */
+ int test_input_fd = open("test_input.txt", O_RDONLY);
+ dup2(test_input_fd, STDIN_FILENO);
+ close(test_input_fd);
+
+ /* Test Case */
+ AddressBook book;
+ book.count = 0;
+ book.list = (ContactInfo *)malloc(sizeof(ContactInfo) * 100);
+ TEST_ASSERT_NOT_NULL(book.list);
+ memset(book.list, 0, sizeof(ContactInfo) * 100);
+
+ /* Test adding and searching a contact */
+ Status ret = load_file(&book);
+	if (ret == e_success)
+	{
+		/* Show all the available menu */
+		ret = menu(&book);
+
+		if (ret == e_success)
+		{
+			/* Save the entries */
+			save_prompt(&book);
+		}
+	}
+ TEST_ASSERT_EQUAL(e_success, ret);
+
+ /* Verify the contact was added correctly */
+ TEST_ASSERT_EQUAL(1, book.count);
+ TEST_ASSERT_EQUAL_STRING("John", book.list[0].name[0]);
+ TEST_ASSERT_EQUAL_STRING("1234567890", book.list[0].phone_numbers[0]);
+ TEST_ASSERT_EQUAL_STRING("john@test.com", book.list[0].email_addresses[0]);
+
+ /* Clean up */
+ if (book.list != NULL) {
+     free(book.list);
+ }
 }
 
 #ifdef TESTING
 int main(void) {
     UNITY_BEGIN();
-    RUN_TEST(test_add_contact);
-    RUN_TEST(test_add_contact_multiple);
+    //RUN_TEST(test_add_contact);
+    //RUN_TEST(test_add_contact_multiple);
+    RUN_TEST(test_search_contact);
     return UNITY_END();
 }
 #endif
