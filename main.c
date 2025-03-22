@@ -9,12 +9,10 @@
 
 int main(void)
 {
-	AddressBook address_book;
+	AddressBook address_book = {0};
 	Status ret;
 
-	/* Load the file from .csv file if any */
 	ret = load_file(&address_book);
-
 	if (ret == e_success)
 	{
 		/* Show all the available menu */

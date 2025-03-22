@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "ctype.h": "c",
+        "address_book.h": "c"
+    }
+}
