@@ -1,6 +1,6 @@
 #include "unity.h"
-#include "../address_book.h"
-#include "../address_book_fops.h"
+#include "address_book.h"
+#include "address_book_fops.h"
 
 //Set up (runs before each test)
 void setUp(void) {}
